@@ -48,8 +48,8 @@ class OrdersController < ApplicationController
       order.line_items.new(
         product: product,
         quantity: quantity,
-        item_price: humanized_money_with_symbol product.price,
-        total_price: humanized_money_with_symbol product.price * quantity
+        item_price: number_to_currency product.price,
+        total_price: number_to_currency product.price * quantity
       )
     end
     order.save!
