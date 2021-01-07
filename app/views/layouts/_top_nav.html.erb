@@ -42,12 +42,19 @@
             <li><%= link_to 'Categories',  [:admin, :categories] %></li>
           </ul>
         </li>
+        <% if !current_user %>
         <li>
-          <%= link_to 'Register', new_users_path %>
+          <%= link_to 'Register', '/register' %>
         </li>
         <li>
-          <%= link_to 'Sign in', new_sessions_path %>
+          <%= link_to 'Log in', '/login' %>
         </li>
+        <% else %>
+        <li>
+          <%= link_to 'Log out', '/logout' %>
+        </li>
+        <% end %>
+        
         <li>
           <%= link_to cart_path do %>
             <%= fa_icon "shopping-cart" %> My Cart (<%= cart.size %>)
