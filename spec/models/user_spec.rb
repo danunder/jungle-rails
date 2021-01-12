@@ -56,21 +56,29 @@ RSpec.describe User, type: :model do
       @user = User.create(
         first_name: 'Bob',
         last_name: 'Danson', 
-        email: 'bobdanson@me.co', 
+        email: 'BobDanson@me.co', 
         password: 'sw0rdf1sh', 
         password_confirmation: 'sw0rdf1sh')
     end
     it 'returns a user when correct credentials are submitted' do
-      @user_two = User.authenticate_with_credentials('bobdanson@me.co', 'sw0rdf1sh')
+      @user_two = User.authenticate_with_credentials('BobDanson@me.co', 'sw0rdf1sh')
       expect(@user_two.last_name).to eq ('Danson')
     end
      it 'returns nil when email cannot be found' do
-      @user_two = User.authenticate_with_credentials('danbobson@me.co', 'sw0rdf1sh')
+      @user_two = User.authenticate_with_credentials('DanBobson@me.co', 'sw0rdf1sh')
       expect(@user_two).to be_nil
     end
     it 'returns nil when password does not match' do
-      @user_two = User.authenticate_with_credentials('bobdanson@me.co', 'swordfish')
+      @user_two = User.authenticate_with_credentials('BobDanson@me.co', 'swordfish')
       expect(@user_two).to be_nil
+    end
+    it 'returns a user when correct credentials are submitted regardless of email capitalisation' do
+      @user_two = User.authenticate_with_credentials('bobdanson@me.co', 'sw0rdf1sh')
+      expect(@user_two).not_to be_nil
+    end
+    it 'returns a user when correct credentials are submitted regardless of trailing or leading spaces in email field' do
+      @user_two = User.authenticate_with_credentials('  bobdanson@me.co  ', 'sw0rdf1sh')
+      expect(@user_two).not_to be_nil
     end
   end
 end
